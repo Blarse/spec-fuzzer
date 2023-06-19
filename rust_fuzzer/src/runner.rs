@@ -216,7 +216,9 @@ impl FuzzRunner for NyxProcess {
 
     fn ijon_max_buffer(&self) -> &[u64]{
         let feedback_buffer = ijon_buffer(self);
-        &feedback_buffer.ijon.max_data
+        unsafe {
+            &(*std::ptr::addr_of!(feedback_buffer.ijon.max_data))
+        }
     }
 
     fn parse_redqueen_data(&self, data: &str) -> RedqueenInfo{
